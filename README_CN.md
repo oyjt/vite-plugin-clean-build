@@ -3,18 +3,16 @@
 [![npm](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&type=6e&v=0.0.3&x2=0)](https://github.com/oyjt/vite-plugin-clean-build)
 ![license](https://img.shields.io/npm/l/vite-plugin-clean-build)
 
-A vite plugin for remove/clean files after build.
+一个用于删除/清理构建后的文件的vite插件。
 
-[中文文档](https://github.com/oyjt/vite-plugin-clean-build/blob/master/README_CN.md)
+## 内容目录
 
-## Table of Contents
+1.  [安装](#installation)
+2.  [使用](#usage)
+3.  [问题](#issues)
+4.  [许可证](#license)
 
-1.  [Installation](#installation)
-2.  [Usage](#usage)
-3.  [Issues](#issues)
-4.  [License](#license)
-
-### Installation
+### 安装
 
 <a name="installation"></a>
 
@@ -29,11 +27,11 @@ A vite plugin for remove/clean files after build.
   pnpm add vite-plugin-clean-build -D
 ```
 
-### Usage
+### 使用
 
 <a name="usage"></a>
 
-Here's an example vite config illustrating how to use this plugin
+这是一个 vite 配置示例，说明了如何使用此插件
 
 **vite.config.js**
 ```js
@@ -42,18 +40,18 @@ export default {
   plugins: [CleanBuild()],
 }
 ```
-<h2 align="center">Options</h2>
+<h2 align="center">配置项</h2>
 
-You can pass a hash of configuration options to `vite-plugin-clean-build`.
-Allowed values are as follows:
+您可以将配置选项值传给`vite-plugin-clean-build`。
+允许的值如下：
 
-|Name|Type|Default|Description|
+|名称|类型|默认值|描述|
 |:--:|:--:|:-----:|:----------|
-|**`outputDir`**|`{string}`|`'dist'`|Removes files in the directory|
-|**`patterns`**|`{Array<string>}`|`[]`|Removes files after every build that match this pattern|
-|**`verbose`**|`{boolean}`|`false`|Write logs to console|
+|**`outputDir`**|`{string}`|`'dist'`|删除该目录内的文件|
+|**`patterns`**|`{Array<string>}`|`[]`|在每次构建后删除与此模式匹配的文件|
+|**`verbose`**|`{boolean}`|`false`|将日志写入控制台|
 
-Here's an example vite config illustrating how to use these options
+这是一个示例 vite 配置，说明了如何使用这些选项
 
 **vite.config.js**
 ```js
@@ -72,11 +70,11 @@ export default {
 }
 ```
 
-### Issues
+### 问题
 
 <a name="issues"></a>
 
-If you encounter some problems during use, please click here [Issue Report](https://github.com/oyjt/vite-plugin-clean-build/issues)
+如果您在使用过程中遇到问题，请点击这里 [问题反馈](https://github.com/oyjt/vite-plugin-clean-build/issues)
 
 ### License
 
