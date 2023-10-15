@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "description": "A vite plugin to remove/clean your build folder(s).",
   "license": "MIT",
-  "author": "oyjt (https://github.com/oyjt)",
+  "author": "cnpath (https://github.com/oyjt)",
   "homepage": "https://github.com/oyjt/vite-plugin-clean-build",
   "repository": "https://github.com/oyjt/vite-plugin-clean-build.git",
   "keywords": [

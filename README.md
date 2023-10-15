@@ -82,4 +82,4 @@ If you encounter some problems during use, please click here [Issue Report](http
 
 [MIT](https://github.com/oyjt/vite-plugin-clean-build/blob/master/LICENSE)
 
-Copyright (c) 2023-present oyjt
+Copyright (c) 2023-present cnpath
