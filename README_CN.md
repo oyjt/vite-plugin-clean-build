@@ -10,7 +10,7 @@
 1.  [安装](#installation)
 2.  [使用](#usage)
 3.  [问题](#issues)
-4.  [许可证](#license)
+4.  [使用许可](#license)
 
 ### 安装
 
@@ -76,7 +76,7 @@ export default {
 
 如果您在使用过程中遇到问题，请点击这里 [问题反馈](https://github.com/oyjt/vite-plugin-clean-build/issues)
 
-### License
+### 使用许可
 
 <a name="license"></a>
 
