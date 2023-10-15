@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-clean-build",
   "type": "module",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "A vite plugin for remove/clean files after build.",
   "license": "MIT",
   "author": "cnpath (https://github.com/oyjt)",
