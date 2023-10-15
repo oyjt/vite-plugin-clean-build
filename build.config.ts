@@ -4,8 +4,7 @@ export default defineBuildConfig({
     'src/index',
   ],
   externals: [
-    'vite',
-    'del'
+    'vite'
   ],
   declaration: true,
   rollup: {
