@@ -5,6 +5,7 @@ export default defineBuildConfig({
   ],
   externals: [
     'vite',
+    'del'
   ],
   declaration: true,
   rollup: {

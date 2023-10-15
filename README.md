@@ -16,15 +16,14 @@ A vite plugin to remove/clean your build folder(s).
 <a name="installation"></a>
 
 ```bash
-  npm i --save-dev vite-plugin-clean-build
-```
+  # npm
+  npm i vite-plugin-clean-build -D
 
-```bash
-  yarn add --dev vite-plugin-clean-build
-```
+  # yarn
+  yarn add vite-plugin-clean-build -D
 
-```bash
-  pnpm add --dev vite-plugin-clean-build
+  # pnpm
+  pnpm add vite-plugin-clean-build -D
 ```
 
 ### Usage
@@ -80,6 +79,6 @@ If you encounter some problems during use, please click here [Issue Report](http
 
 <a name="license"></a>
 
-[MIT](https://github.com/oyjt/vite-plugin-clean-build/blob/master/LICENSE)
+[MIT License](https://github.com/oyjt/vite-plugin-clean-build/blob/master/LICENSE)
 
 Copyright (c) 2023-present cnpath
