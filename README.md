@@ -9,6 +9,7 @@ A vite plugin to remove/clean your build folder(s).
 1.  [Installation](#installation)
 2.  [Usage](#usage)
 3.  [Issues](#issues)
+4.  [License](#license)
 
 ### Installation
 
@@ -63,6 +64,7 @@ export default {
         'images/**',
         '!images/logo.png'
       ],
+      verbose: true,
     }
   )],
 }
@@ -73,3 +75,11 @@ export default {
 <a name="issues"></a>
 
 If you encounter some problems during use, please click here [Issue Report](https://github.com/oyjt/vite-plugin-clean-build/issues)
+
+### License
+
+<a name="license"></a>
+
+[MIT](https://github.com/oyjt/vite-plugin-clean-build/blob/master/LICENSE)
+
+Copyright (c) 2023-present oyjt
