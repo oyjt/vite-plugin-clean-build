@@ -1,9 +1,10 @@
 # vite-plugin-clean-build
 
-[![npm](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&type=6e&v=0.0.3&x2=0)](https://github.com/oyjt/vite-plugin-clean-build)
-![license](https://img.shields.io/npm/l/vite-plugin-clean-build)
+![npm](https://img.shields.io/npm/v/vite-plugin-clean-build) ![license](https://img.shields.io/npm/l/vite-plugin-clean-build)
 
 一个用于删除/清理构建后的文件的vite插件。
+
+[English](README.md) | [中文](README_CN.md)
 
 ## 内容目录
 

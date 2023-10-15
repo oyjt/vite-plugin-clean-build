@@ -1,11 +1,10 @@
 # vite-plugin-clean-build
 
-[![npm](https://d25lcipzij17d.cloudfront.net/badge.svg?id=js&r=r&type=6e&v=0.0.3&x2=0)](https://github.com/oyjt/vite-plugin-clean-build)
-![license](https://img.shields.io/npm/l/vite-plugin-clean-build)
+![npm](https://img.shields.io/npm/v/vite-plugin-clean-build) ![license](https://img.shields.io/npm/l/vite-plugin-clean-build)
 
 A vite plugin for remove/clean files after build.
 
-[中文文档](https://github.com/oyjt/vite-plugin-clean-build/blob/master/README_CN.md)
+[English](README.md) | [中文](README_CN.md)
 
 ## Table of Contents
 
