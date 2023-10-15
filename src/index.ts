@@ -1,5 +1,5 @@
 import path from "node:path";
-import { deleteAsync } from "del";
+import del from "del";
 import type { PluginOption } from "vite";
 import type { ConfigOptions } from "./typing";
 
@@ -19,7 +19,7 @@ const cleanBuildPlugin = (_opt: ConfigOptions): PluginOption => {
     closeBundle: async () => {
       try {
         const outputDir = path.resolve(options.outputDir);
-        const deletedPaths = await deleteAsync(options.patterns, { cwd: outputDir, dot: true, ignore: [] });
+        const deletedPaths = await del(options.patterns, { cwd: outputDir, dot: true, ignore: [] });
         if (options.verbose) {
           console.log("delete files success:", deletedPaths.join("\n"));
         }
