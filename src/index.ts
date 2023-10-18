@@ -1,9 +1,9 @@
 import path from "node:path";
 import del from "del";
-import type { PluginOption } from "vite";
+import type { Plugin } from "vite";
 import type { ConfigOptions } from "./typing";
 
-const cleanBuildPlugin = (_opt: ConfigOptions): PluginOption => {
+const cleanBuildPlugin = (_opt: ConfigOptions): Plugin => {
   const options = Object.assign(
     {
       outputDir: "dist",
