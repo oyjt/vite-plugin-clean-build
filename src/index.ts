@@ -4,14 +4,13 @@ import type { Plugin } from "vite";
 import type { ConfigOptions } from "./typing";
 
 const cleanBuildPlugin = (_opt: ConfigOptions): Plugin => {
-  const options = Object.assign(
-    {
-      outputDir: "dist",
-      patterns: [],
-      verbose: false,
-    },
-    _opt
-  );
+  const options = {
+    outputDir: "dist",
+    patterns: [],
+    verbose: false,
+    ..._opt
+  };
+
   return {
     name: "vite-plugin-clean-build",
     enforce: "post",
@@ -19,12 +18,26 @@ const cleanBuildPlugin = (_opt: ConfigOptions): Plugin => {
     closeBundle: async () => {
       try {
         const outputDir = path.resolve(options.outputDir);
-        const deletedPaths = await del(options.patterns, { cwd: outputDir, dot: true, ignore: [] });
+        const deletedPaths = await del(options.patterns, { 
+          cwd: outputDir, 
+          dot: true, 
+          ignore: [],
+          dryRun: false,
+          force: false 
+        });
+        
         if (options.verbose) {
-          console.log("delete files success:", deletedPaths.join("\n"));
+          if (deletedPaths.length === 0) {
+            console.log("✓ Cleanup completed: No files were deleted");
+          } else {
+            console.log(`✓ Cleanup completed: Successfully deleted ${deletedPaths.length} files:`);
+            deletedPaths.forEach(filePath => console.log(`  - ${filePath}`));
+          }
         }
-      } catch (error) {
-        console.error("delete files success fail:", error);
+      } catch (error: unknown) {
+        // More specific error handling
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error(`❌ Failed to delete files: ${errorMessage}`);
       }
     },
   };
