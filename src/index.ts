@@ -3,7 +3,7 @@ import del from "del";
 import type { Plugin } from "vite";
 import type { ConfigOptions } from "./typing";
 
-const cleanBuildPlugin = (_opt: ConfigOptions): Plugin => {
+const cleanBuildPlugin = (_opt: ConfigOptions = {}): Plugin => {
   const options = {
     outputDir: "dist",
     patterns: [],
