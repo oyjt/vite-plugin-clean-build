@@ -3,6 +3,8 @@ import { deleteAsync } from "del";
 import type { Plugin } from "vite";
 import type { ConfigOptions } from "./typing";
 
+const pluginName = "vite-plugin-clean-build";
+
 const cleanBuildPlugin = ({
   outputDir,
   patterns = [],
@@ -11,7 +13,7 @@ const cleanBuildPlugin = ({
   let resolvedOutputDir: string;
 
   return {
-    name: "vite-plugin-clean-build",
+    name: pluginName,
     enforce: "post",
     apply: "build",
     configResolved(config) {
@@ -32,17 +34,16 @@ const cleanBuildPlugin = ({
         if (!verbose) return;
 
         if (deletedPaths.length === 0) {
-          console.log("✓ Cleanup completed: No files were deleted");
+          console.log(`[${pluginName}] No matching paths found.`);
           return;
         }
 
-        console.log(`✓ Cleanup completed: Deleted paths (${deletedPaths.length}):`);
-        for (const filePath of deletedPaths) {
-          console.log(`  - ${filePath}`);
-        }
+        const pathLabel = deletedPaths.length === 1 ? "path" : "paths";
+        const paths = deletedPaths.map(filePath => `  - ${filePath}`).join("\n");
+        console.log(`[${pluginName}] Removed ${deletedPaths.length} ${pathLabel}:\n${paths}`);
       } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : String(error);
-        console.error(`❌ Failed to delete files: ${errorMessage}`);
+        console.error(`[${pluginName}] Cleanup failed: ${errorMessage}`);
       }
     },
   };

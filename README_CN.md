@@ -8,7 +8,7 @@
 
 ## 安装
 
-要求 Vite 8 和 Node.js `^20.19.0 || >=22.12.0`，仅支持 ESM。
+支持 Vite 3 至 Vite 8，要求 Node.js 18 或更高版本，仅支持 ESM。使用 Vite 8 时，还需满足 Vite 自身的 Node.js 版本要求。
 
 ```bash
 # npm
@@ -42,7 +42,7 @@ export default defineConfig({
 | --- | --- | --- | --- |
 | `outputDir` | `string` | Vite `build.outDir` | 清理目录；显式相对路径以 `process.cwd()` 为基准 |
 | `patterns` | `string[]` | `[]` | 要删除的文件和目录的 glob 规则，相对清理目录匹配 |
-| `verbose` | `boolean` | `false` | 输出清理结果和删除路径；错误始终输出 |
+| `verbose` | `boolean` | `false` | 输出清理摘要和已删除路径；错误始终输出 |
 
 默认使用 Vite 的 `build.outDir`，相对 Vite 的 `root` 解析。显式传入的相对 `outputDir` 以当前工作目录（`process.cwd()`）为基准；绝对路径直接使用。
 

@@ -87,8 +87,7 @@ test('verbose logs deleted directory paths', async t => {
   const target = path.join(root, 'dist/images')
   assert.equal(await exists(target), false)
   assert.deepEqual(logs.mock.calls.map(call => call.arguments[0]), [
-    '✓ Cleanup completed: Deleted paths (1):',
-    `  - ${target}`,
+    `[vite-plugin-clean-build] Removed 1 path:\n  - ${target}`,
   ])
 })
 
@@ -101,7 +100,7 @@ test('verbose logs when no files match', async t => {
   })
   assert.equal(await exists(path.join(root, 'dist/images/remove.png')), true)
   assert.deepEqual(logs.mock.calls.map(call => call.arguments[0]), [
-    '✓ Cleanup completed: No files were deleted',
+    '[vite-plugin-clean-build] No matching paths found.',
   ])
 })
 
@@ -116,5 +115,5 @@ test('outside paths are protected and cleanup errors remain non-fatal', async t 
   })
   assert.equal(await exists(outside), true)
   assert.equal(errors.mock.callCount(), 1)
-  assert.match(errors.mock.calls[0].arguments[0], /Failed to delete files/)
+  assert.match(errors.mock.calls[0].arguments[0], /^\[vite-plugin-clean-build\] Cleanup failed:/)
 })
