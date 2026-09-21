@@ -1,43 +1,52 @@
 import path from "node:path";
-import del from "del";
-import type { Plugin } from "vite";
+import { deleteAsync } from "del";
+import type { Logger, Plugin } from "vite";
 import type { ConfigOptions } from "./typing";
 
-const cleanBuildPlugin = (_opt: ConfigOptions = {}): Plugin => {
-  const options = {
-    outputDir: "dist",
-    patterns: [],
-    verbose: false,
-    ..._opt
-  };
+const pluginName = "vite-plugin-clean-build";
+
+const cleanBuildPlugin = ({
+  outputDir,
+  patterns = [],
+  verbose = false,
+  silent = false,
+}: ConfigOptions = {}): Plugin => {
+  let resolvedOutputDir: string;
+  let logger: Logger;
 
   return {
-    name: "vite-plugin-clean-build",
+    name: pluginName,
     enforce: "post",
     apply: "build",
-    closeBundle: async () => {
+    configResolved(config) {
+      logger = config.logger;
+      resolvedOutputDir = outputDir === undefined
+        ? path.resolve(config.root, config.build.outDir)
+        : path.resolve(outputDir);
+    },
+    async closeBundle() {
+      if (patterns.length === 0) return;
+
       try {
-        const outputDir = path.resolve(options.outputDir);
-        const deletedPaths = await del(options.patterns, { 
-          cwd: outputDir, 
-          dot: true, 
-          ignore: [],
-          dryRun: false,
-          force: false 
+        const deletedPaths = await deleteAsync(patterns, {
+          cwd: resolvedOutputDir,
+          dot: true,
+          force: false,
         });
-        
-        if (options.verbose) {
-          if (deletedPaths.length === 0) {
-            console.log("✓ Cleanup completed: No files were deleted");
-          } else {
-            console.log(`✓ Cleanup completed: Successfully deleted ${deletedPaths.length} files:`);
-            deletedPaths.forEach(filePath => console.log(`  - ${filePath}`));
-          }
+
+        if (!verbose || silent) return;
+
+        if (deletedPaths.length === 0) {
+          logger.info(`[${pluginName}] No matching paths found.`);
+          return;
         }
+
+        const pathLabel = deletedPaths.length === 1 ? "path" : "paths";
+        const paths = deletedPaths.map(filePath => `  - ${filePath}`).join("\n");
+        logger.info(`[${pluginName}] Removed ${deletedPaths.length} ${pathLabel}:\n${paths}`);
       } catch (error: unknown) {
-        // More specific error handling
         const errorMessage = error instanceof Error ? error.message : String(error);
-        console.error(`❌ Failed to delete files: ${errorMessage}`);
+        if (!silent) logger.error(`[${pluginName}] Cleanup failed: ${errorMessage}`);
       }
     },
   };
