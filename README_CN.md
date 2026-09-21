@@ -8,7 +8,7 @@
 
 ## 安装
 
-支持 Vite 3 至 Vite 8，要求 Node.js 18 或更高版本，仅支持 ESM。使用 Vite 8 时，还需满足 Vite 自身的 Node.js 版本要求。
+支持 Vite 3 及更高版本，要求 Node.js 18 或更高版本，仅支持 ESM。
 
 ```bash
 # npm
@@ -43,6 +43,7 @@ export default defineConfig({
 | `outputDir` | `string` | Vite `build.outDir` | 清理目录；显式相对路径以 `process.cwd()` 为基准 |
 | `patterns` | `string[]` | `[]` | 要删除的文件和目录的 glob 规则，相对清理目录匹配 |
 | `verbose` | `boolean` | `false` | 输出清理摘要和已删除路径；错误始终输出 |
+| `silent` | `boolean` | `false` | 关闭插件的全部日志，包括错误日志 |
 
 默认使用 Vite 的 `build.outDir`，相对 Vite 的 `root` 解析。显式传入的相对 `outputDir` 以当前工作目录（`process.cwd()`）为基准；绝对路径直接使用。
 
@@ -68,6 +69,8 @@ export default {
 Glob 规则使用正斜杠，包括 Windows 环境。`images/**` 也会匹配父目录，因此要保留 `images/logo.png`，还需排除 `images` 目录本身。清理包含隐藏文件，不允许删除所选目录之外的文件。
 
 空规则不执行清理。清理失败会记录错误，但不会中断构建。插件仅在构建时执行，开发服务器中不执行清理。
+
+当日志由外层插件统一管理时，可以设置 `silent: true`。该选项优先于 `verbose`，并且会隐藏清理错误。
 
 ## 更新日志
 

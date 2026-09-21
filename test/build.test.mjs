@@ -3,7 +3,7 @@ import { mkdtemp, mkdir, writeFile, access, rm } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { test } from 'node:test'
-import { build } from 'vite'
+import { build, createLogger } from 'vite'
 import CleanBuild from 'vite-plugin-clean-build'
 
 async function fixture(t) {
@@ -24,6 +24,19 @@ const exists = async file => {
     throw error
   }
 }
+
+const mockLogger = t => {
+  const logger = createLogger()
+  return {
+    logger,
+    info: t.mock.method(logger, 'info', () => {}),
+    error: t.mock.method(logger, 'error', () => {}),
+  }
+}
+
+const pluginLogs = mock => mock.mock.calls
+  .map(call => call.arguments[0])
+  .filter(message => message.startsWith('[vite-plugin-clean-build]'))
 
 for (const outDir of ['dist', 'release', 'absolute']) {
   test(`cleans resolved ${outDir} output and preserves exclusions`, async t => {
@@ -68,38 +81,38 @@ test('empty patterns do not delete files', async t => {
 
 test('explicit undefined options use defaults and stay quiet', async t => {
   const { root } = await fixture(t)
-  const logs = t.mock.method(console, 'log', () => {})
+  const { logger, info } = mockLogger(t)
   await build({
-    configFile: false, root, logLevel: 'silent',
+    configFile: false, root, logLevel: 'silent', customLogger: logger,
     plugins: [CleanBuild({ outputDir: undefined, patterns: undefined, verbose: undefined })],
   })
   assert.equal(await exists(path.join(root, 'dist/images/remove.png')), true)
-  assert.equal(logs.mock.callCount(), 0)
+  assert.deepEqual(pluginLogs(info), [])
 })
 
 test('verbose logs deleted directory paths', async t => {
   const { root } = await fixture(t)
-  const logs = t.mock.method(console, 'log', () => {})
+  const { logger, info } = mockLogger(t)
   await build({
-    configFile: false, root, logLevel: 'silent',
+    configFile: false, root, logLevel: 'silent', customLogger: logger,
     plugins: [CleanBuild({ patterns: ['images'], verbose: true })],
   })
   const target = path.join(root, 'dist/images')
   assert.equal(await exists(target), false)
-  assert.deepEqual(logs.mock.calls.map(call => call.arguments[0]), [
+  assert.deepEqual(pluginLogs(info), [
     `[vite-plugin-clean-build] Removed 1 path:\n  - ${target}`,
   ])
 })
 
 test('verbose logs when no files match', async t => {
   const { root } = await fixture(t)
-  const logs = t.mock.method(console, 'log', () => {})
+  const { logger, info } = mockLogger(t)
   await build({
-    configFile: false, root, logLevel: 'silent',
+    configFile: false, root, logLevel: 'silent', customLogger: logger,
     plugins: [CleanBuild({ patterns: ['missing.txt'], verbose: true })],
   })
   assert.equal(await exists(path.join(root, 'dist/images/remove.png')), true)
-  assert.deepEqual(logs.mock.calls.map(call => call.arguments[0]), [
+  assert.deepEqual(pluginLogs(info), [
     '[vite-plugin-clean-build] No matching paths found.',
   ])
 })
@@ -108,12 +121,23 @@ test('outside paths are protected and cleanup errors remain non-fatal', async t 
   const { root } = await fixture(t)
   const outside = path.join(root, 'keep.txt')
   await writeFile(outside, 'keep')
-  const errors = t.mock.method(console, 'error', () => {})
+  const { logger, error } = mockLogger(t)
   await build({
-    configFile: false, root, logLevel: 'silent',
+    configFile: false, root, logLevel: 'silent', customLogger: logger,
     plugins: [CleanBuild({ patterns: ['../keep.txt'] })],
   })
   assert.equal(await exists(outside), true)
-  assert.equal(errors.mock.callCount(), 1)
-  assert.match(errors.mock.calls[0].arguments[0], /^\[vite-plugin-clean-build\] Cleanup failed:/)
+  assert.equal(error.mock.callCount(), 1)
+  assert.match(error.mock.calls[0].arguments[0], /^\[vite-plugin-clean-build\] Cleanup failed:/)
+})
+
+test('silent suppresses verbose and error logs', async t => {
+  const { root } = await fixture(t)
+  const { logger, info, error } = mockLogger(t)
+  await build({
+    configFile: false, root, logLevel: 'silent', customLogger: logger,
+    plugins: [CleanBuild({ patterns: ['../missing.txt'], verbose: true, silent: true })],
+  })
+  assert.deepEqual(pluginLogs(info), [])
+  assert.deepEqual(pluginLogs(error), [])
 })
