@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { mkdtemp, mkdir, writeFile, access, rm } from 'node:fs/promises'
+import { mkdtemp, mkdir, writeFile, access, realpath, rm } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { test } from 'node:test'
@@ -93,11 +93,11 @@ test('explicit undefined options use defaults and stay quiet', async t => {
 test('verbose logs deleted directory paths', async t => {
   const { root } = await fixture(t)
   const { logger, info } = mockLogger(t)
+  const target = path.join(await realpath(root), 'dist/images')
   await build({
     configFile: false, root, logLevel: 'silent', customLogger: logger,
     plugins: [CleanBuild({ patterns: ['images'], verbose: true })],
   })
-  const target = path.join(root, 'dist/images')
   assert.equal(await exists(target), false)
   assert.deepEqual(pluginLogs(info), [
     `[vite-plugin-clean-build] Removed 1 path:\n  - ${target}`,
