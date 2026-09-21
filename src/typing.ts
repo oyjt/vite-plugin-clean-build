@@ -2,12 +2,14 @@ export interface ConfigOptions {
   /**
    * Remove files inside the directory
    * 
-   * default: dist
+   * Defaults to Vite's build.outDir, resolved relative to Vite's root.
+   * Explicit relative paths remain relative to process.cwd().
    * 
    */
   outputDir?: string;
   /**
-   * Removes files after every build that match this pattern
+   * Glob patterns for files and directories to remove after build,
+   * relative to the cleanup directory.
    *
    * Use !negative patterns to exclude files
    *
@@ -15,7 +17,7 @@ export interface ConfigOptions {
    */
   patterns?: string[];
   /**
-   * Write logs to console
+   * Log cleanup results and deleted paths. Errors are always logged.
    *
    * default: false
    */

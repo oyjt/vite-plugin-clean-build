@@ -2,85 +2,83 @@
 
 ![npm](https://img.shields.io/npm/v/vite-plugin-clean-build) ![license](https://img.shields.io/npm/l/vite-plugin-clean-build)
 
-A vite plugin for remove/clean files after build.
+A Vite plugin that removes matching files and directories after a build.
 
 [English](README.md) | [中文](README_CN.md)
 
-## Table of Contents
+## Installation
 
-1.  [Installation](#installation)
-2.  [Usage](#usage)
-3.  [Issues](#issues)
-4.  [License](#license)
-
-### Installation
-
-<a name="installation"></a>
+Requires Vite 8 and Node.js `^20.19.0 || >=22.12.0`. This package is ESM only.
 
 ```bash
-  # npm
-  npm i vite-plugin-clean-build -D
+# npm
+npm i vite-plugin-clean-build -D
 
-  # yarn
-  yarn add vite-plugin-clean-build -D
+# yarn
+yarn add vite-plugin-clean-build -D
 
-  # pnpm
-  pnpm add vite-plugin-clean-build -D
+# pnpm
+pnpm add vite-plugin-clean-build -D
 ```
 
-### Usage
+## Usage
 
-<a name="usage"></a>
+Add the plugin to an ESM Vite config, such as `vite.config.mjs` or `vite.config.mts`. You can also use `vite.config.js` in a project with `"type": "module"`.
 
-Here's an example vite config illustrating how to use this plugin
+For example, remove source maps after building:
 
-**vite.config.js**
 ```js
+import { defineConfig } from 'vite';
 import CleanBuild from 'vite-plugin-clean-build';
-export default {
-  plugins: [CleanBuild()],
-}
+
+export default defineConfig({
+  plugins: [CleanBuild({ patterns: ['**/*.map'] })],
+});
 ```
-<h2 align="center">Options</h2>
 
-You can pass a hash of configuration options to `vite-plugin-clean-build`.
-Allowed values are as follows:
+## Options
 
-|Name|Type|Default|Description|
-|:--:|:--:|:-----:|:----------|
-|**`outputDir`**|`{string}`|`'dist'`|Removes files in the directory|
-|**`patterns`**|`{Array<string>}`|`[]`|Removes files after every build that match this pattern|
-|**`verbose`**|`{boolean}`|`false`|Write logs to console|
+| Name | Type | Default | Description |
+| --- | --- | --- | --- |
+| `outputDir` | `string` | Vite `build.outDir` | Cleanup directory; explicit relative paths resolve from `process.cwd()` |
+| `patterns` | `string[]` | `[]` | Glob patterns for files and directories to remove, relative to the cleanup directory |
+| `verbose` | `boolean` | `false` | Log cleanup results and deleted paths; errors are always logged |
 
-Here's an example vite config illustrating how to use these options
+By default, cleanup uses Vite's `build.outDir`, resolved relative to Vite's `root`. An explicit relative `outputDir` resolves from the current working directory (`process.cwd()`); an absolute path is used as provided.
 
-**vite.config.js**
+For custom bundler outputs or multi-environment builds, configure `outputDir` for the intended cleanup target. Automatic per-environment directory selection is not supported.
+
+To remove images while keeping `logo.png`:
+
 ```js
 import CleanBuild from 'vite-plugin-clean-build';
+
 export default {
-  plugins: [CleanBuild(
-    {
-      outputDir: 'dist',
-      patterns: [
-        'images/**',
-        '!images/logo.png'
-      ],
+  plugins: [
+    CleanBuild({
+      patterns: ['images/**', '!images', '!images/logo.png'],
       verbose: true,
-    }
-  )],
-}
+    }),
+  ],
+};
 ```
 
-### Issues
+## Cleanup behavior
 
-<a name="issues"></a>
+Glob patterns use forward slashes, including on Windows. A pattern such as `images/**` also matches the parent directory; exclude `images` itself as well as `images/logo.png` to preserve that file. Cleanup includes dotfiles and does not allow deleting outside the selected directory.
 
-If you encounter some problems during use, please click here [Issue Report](https://github.com/oyjt/vite-plugin-clean-build/issues)
+Empty patterns do nothing. Cleanup errors are logged without failing the build. The plugin runs during builds, not in the development server.
 
-### License
+## Changelog
 
-<a name="license"></a>
+See [CHANGELOG.md](https://github.com/oyjt/vite-plugin-clean-build/blob/main/CHANGELOG.md) for release changes and migration notes.
 
-[MIT License](https://github.com/oyjt/vite-plugin-clean-build/blob/master/LICENSE)
+## Issues
+
+Report bugs or request features in [GitHub Issues](https://github.com/oyjt/vite-plugin-clean-build/issues).
+
+## License
+
+[MIT License](https://github.com/oyjt/vite-plugin-clean-build/blob/main/LICENSE)
 
 Copyright (c) 2023-present cnpath
