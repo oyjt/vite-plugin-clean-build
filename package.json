@@ -54,7 +54,7 @@
     "del": "^8.0.1"
   },
   "peerDependencies": {
-    "vite": ">=3.0.0 <9.0.0"
+    "vite": ">=3.0.0"
   },
   "engines": {
     "node": ">=18"

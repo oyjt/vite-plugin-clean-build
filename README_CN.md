@@ -8,7 +8,7 @@
 
 ## 安装
 
-支持 Vite 3 至 Vite 8，要求 Node.js 18 或更高版本，仅支持 ESM。
+要求 Vite 3 或更高版本以及 Node.js 18 或更高版本，当前兼容性测试覆盖 Vite 3 至 Vite 8，仅支持 ESM。
 
 ```bash
 # npm

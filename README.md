@@ -8,7 +8,7 @@ A Vite plugin that removes matching files and directories after a build.
 
 ## Installation
 
-Supports Vite 3 through 8. Requires Node.js 18 or later. This package is ESM only.
+Requires Vite 3 or later and Node.js 18 or later. Compatibility is tested against Vite 3 through 8. This package is ESM only.
 
 ```bash
 # npm
