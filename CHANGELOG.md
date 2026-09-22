@@ -1,6 +1,15 @@
 # Changelog
 
-## 2.0.0 (Unreleased / 未发布)
+## Unreleased / 未发布
+
+- Clean only after successful builds and support cleanup after each build in watch mode.
+- Export the `CleanBuildOptions` type.
+- Explicitly declare support for Vite 3 through Vite 8.
+- 仅在构建成功后清理，并支持在构建监听模式的每次构建后清理。
+- 导出 `CleanBuildOptions` 类型。
+- 明确声明支持 Vite 3 至 Vite 8。
+
+## 2.0.0 (2026-09-21)
 
 ### Breaking changes
 

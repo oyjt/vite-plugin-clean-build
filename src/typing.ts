@@ -1,10 +1,10 @@
-export interface ConfigOptions {
+export interface CleanBuildOptions {
   /**
    * Remove files inside the directory
-   * 
+   *
    * Defaults to Vite's build.outDir, resolved relative to Vite's root.
    * Explicit relative paths remain relative to process.cwd().
-   * 
+   *
    */
   outputDir?: string;
   /**

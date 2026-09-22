@@ -2,11 +2,17 @@
   "name": "vite-plugin-clean-build",
   "type": "module",
   "version": "2.0.0",
-  "description": "A vite plugin for remove/clean files after build.",
+  "description": "A Vite plugin that removes matching files and directories after a build.",
   "license": "MIT",
   "author": "cnpath (https://github.com/oyjt)",
   "homepage": "https://github.com/oyjt/vite-plugin-clean-build",
-  "repository": "https://github.com/oyjt/vite-plugin-clean-build.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oyjt/vite-plugin-clean-build.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oyjt/vite-plugin-clean-build/issues"
+  },
   "keywords": [
     "vite-plugin",
     "vite",
@@ -33,6 +39,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "unbuild",
+    "prepack": "unbuild",
     "stub": "unbuild --stub",
     "typecheck": "tsc --noEmit",
     "test": "pnpm build && node --test test/build.test.mjs"
@@ -47,7 +54,7 @@
     "del": "^8.0.1"
   },
   "peerDependencies": {
-    "vite": ">=3.0.0"
+    "vite": ">=3.0.0 <9.0.0"
   },
   "engines": {
     "node": ">=18"

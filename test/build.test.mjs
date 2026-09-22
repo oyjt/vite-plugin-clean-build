@@ -79,6 +79,41 @@ test('empty patterns do not delete files', async t => {
   assert.equal(await exists(path.join(root, 'dist/images/remove.png')), true)
 })
 
+test('failed builds do not clean existing output', async t => {
+  const { root } = await fixture(t)
+  const target = path.join(root, 'dist/keep.txt')
+  await mkdir(path.dirname(target), { recursive: true })
+  await writeFile(target, 'keep')
+  await writeFile(path.join(root, 'index.html'), '<script type="module" src="/missing.js"></script>')
+
+  await assert.rejects(build({
+    configFile: false, root, logLevel: 'silent', build: { emptyOutDir: false },
+    plugins: [CleanBuild({ patterns: ['keep.txt'] })],
+  }))
+  assert.equal(await exists(target), true)
+})
+
+test('watch builds clean after each output', async t => {
+  const { root } = await fixture(t)
+  const target = path.join(root, 'dist/images/remove.png')
+  const watcher = await build({
+    configFile: false, root, logLevel: 'silent', build: { watch: {} },
+    plugins: [CleanBuild({ patterns: ['images/remove.png'] })],
+  })
+
+  try {
+    await new Promise((resolve, reject) => {
+      watcher.on('event', event => {
+        if (event.code === 'END') resolve()
+        if (event.code === 'ERROR') reject(event.error)
+      })
+    })
+    assert.equal(await exists(target), false)
+  } finally {
+    await watcher.close()
+  }
+})
+
 test('explicit undefined options use defaults and stay quiet', async t => {
   const { root } = await fixture(t)
   const { logger, info } = mockLogger(t)

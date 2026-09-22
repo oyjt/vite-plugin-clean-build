@@ -8,7 +8,7 @@ A Vite plugin that removes matching files and directories after a build.
 
 ## Installation
 
-Supports Vite 3 and later. Requires Node.js 18 or later. This package is ESM only.
+Supports Vite 3 through 8. Requires Node.js 18 or later. This package is ESM only.
 
 ```bash
 # npm
@@ -68,9 +68,11 @@ export default {
 
 Glob patterns use forward slashes, including on Windows. A pattern such as `images/**` also matches the parent directory; exclude `images` itself as well as `images/logo.png` to preserve that file. Cleanup includes dotfiles and does not allow deleting outside the selected directory.
 
-Empty patterns do nothing. Cleanup errors are logged without failing the build. The plugin runs during builds, not in the development server.
+Empty patterns do nothing. Cleanup errors are logged without failing the build. Cleanup runs after each successful build, including build watch mode, but not in the development server.
 
 Set `silent: true` when another plugin manages logging. It takes precedence over `verbose` and also hides cleanup errors.
+
+This plugin is Vite-specific because it uses Vite's resolved `root`, `build.outDir`, and logger.
 
 ## Changelog
 
