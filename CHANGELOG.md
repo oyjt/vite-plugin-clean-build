@@ -5,6 +5,9 @@
 - Clean only after successful builds and support cleanup after each build in watch mode.
 - Export the `CleanBuildOptions` type.
 - Added compatibility testing for Vite 3 through Vite 8.
+
+### 中文说明
+
 - 仅在构建成功后清理，并支持在构建监听模式的每次构建后清理。
 - 导出 `CleanBuildOptions` 类型。
 - 新增 Vite 3 至 Vite 8 的兼容性测试。
