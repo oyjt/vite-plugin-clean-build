@@ -43,6 +43,6 @@ jobs:
           node-version: '20.19.0'
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: pnpm build
       - run: pnpm add --save-dev vite@${{ matrix.vite }} --lockfile=false
-      - run: pnpm typecheck
-      - run: pnpm test
+      - run: node --test test/build.test.mjs
