@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased / 未发布
+## 2.0.1 (2026-09-22)
 
 - Clean only after successful builds and support cleanup after each build in watch mode.
 - Export the `CleanBuildOptions` type.
